@@ -4,13 +4,13 @@
 
 <%= form_for @department do |f| %>
   <%= f.label :name, class: "label" %>
-  <%= f.text_field :name, class: "input-field" %><br>
+  <%= f.text_field :name, class: "input-field", placeholder: "Depart. name"  %><br>
 
   <%= f.label :description, class: "label" %>
-  <%= f.text_field :description, class: "input-field" %><br>
+  <%= f.text_field :description, class: "input-field", placeholder: "Desc. text"  %><br>
 
   <%= f.label :hospital_id, class: "label" %>
-  <%= f.number_field :hospital_id, class: "input-field" %><br>
+  <%= f.number_field :hospital_id, class: "input-field", placeholder: "Hospital ID"  %><br>
 
   <%= f.submit "Update", class: "button" %>
 

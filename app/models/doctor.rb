@@ -1,8 +1,9 @@
 class Doctor < ApplicationRecord
 	belongs_to :department
 	belongs_to :specialty
+	has_many :patient_cards, dependent: :destroy
 
-	validates :name, presence: true, length: { maximum: 100 }
+	validates :name, presence: true, length: { maximum: 255 }
 	validates :email, presence: true, length: { maximum: 255 }, format: { with: URI::MailTo::EMAIL_REGEXP, message: "Invalid email format!" }
 	validates :phone, presence: true, length: { maximum: 20 }, format: { with: /\A\+?\d+\z/, message: "Invalid phone format!" }
 

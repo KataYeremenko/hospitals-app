@@ -4,16 +4,19 @@
 
 <%= form_for @hospital do |f| %>
   <%= f.label :name, class: "label" %>
-  <%= f.text_field :name, class: "input-field" %><br>
+  <%= f.text_field :name, class: "input-field", placeholder: "Hospital name" %><br>
 
   <%= f.label :email, class: "label" %>
-  <%= f.text_field :email, class: "input-field" %><br>
+  <%= f.text_field :email, class: "input-field", placeholder: "example@gmail.com" %><br>
 
   <%= f.label :phone, class: "label" %>
-  <%= f.text_field :phone, class: "input-field" %><br>
+  <%= f.text_field :phone, class: "input-field", placeholder: "+3807654321" %><br>
 
   <%= f.label :address, class: "label" %>
-  <%= f.text_field :address, class: "input-field" %><br>
+  <%= f.text_field :address, class: "input-field", placeholder: "123 Adr Street" %><br>
+
+  <%= f.label :year, class: "label" %>
+  <%= f.text_field :year, class: "input-field", placeholder: "1700-2023" %><br>
 
   <%= f.submit "Create", class: "button" %>
 

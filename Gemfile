@@ -12,6 +12,10 @@ gem "devise"
 
 gem "rails-controller-testing"
 
+gem "kaminari"
+
+gem "uglifier"
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 

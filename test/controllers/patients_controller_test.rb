@@ -10,12 +10,20 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
     end
     @user = User.create(email: email, password: 'password')
     sign_in @user
-    @patient = Patient.create(name: 'Patient P1', birthdate: Faker::Date.birthday(min_age: 16, max_age: 100), phone: '+380123456789', address: '123 Adr1 st')
+    @patient = Patient.create(name: 'Patient P1', birthdate: Faker::Date.birthday(min_age: 16, max_age: 100), phone: '+380123456789', address: '123 Adr1 Street')
+    9.times do |i|
+      patient = Patient.create(name: "Patient P#{i + 2}", birthdate: Faker::Date.birthday(min_age: 16, max_age: 100), phone: "+380#{i + 2}0000000", address: "234 Adr#{i + 2} Street")
+    end
   end
 
   test "should get index" do
     get patients_url
     assert_response :success
+    assert_select 'table tr', count: 11
+    assert_select 'a', '2'
+    get patients_url(page: 2)
+    assert_response :success
+    assert_select 'table tr', count: 3
   end
 
   test "should get show" do
@@ -47,7 +55,7 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
         name: 'Patient P2',
         birthdate: Faker::Date.birthday(min_age: 16, max_age: 100),
         phone: '+380234567891',
-        address: '234 Adr2 st',
+        address: '234 Adr2 Street',
       }
     }
     assert_redirected_to patient_url(@patient)
