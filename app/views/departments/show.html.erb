@@ -16,4 +16,13 @@
     <td> <%= @department.description %> </td>
   </tr>
 
+  <tr>
+    <td> Hospital ID: </td>
+    <td> <%= @department.hospital_id %> </td>
+  </tr>
 </table>
+
+<br>
+
+<%= link_to 'Update', edit_department_path(@department) %> |
+<%= link_to 'Back to departments', departments_path %>

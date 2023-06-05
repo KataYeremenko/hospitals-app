@@ -21,4 +21,17 @@
     <td> <%= @doctor.phone %> </td>
   </tr>
 
+  <tr>
+    <td> Department ID: </td>
+    <td> <%= @doctor.department_id %> </td>
+  </tr>
+
+  <tr>
+    <td> Specialty ID: </td>
+    <td> <%= @doctor.specialty_id %> </td>
+  </tr>
+
 </table>
+
+<%= link_to 'Update', edit_doctor_path(@doctor) %> |
+<%= link_to 'Back to doctors', doctors_path %>
