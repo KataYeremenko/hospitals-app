@@ -217,6 +217,7 @@ GEM
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
     thor (1.2.2)
+    thread (0.2.2)
     timeout (0.3.2)
     ttfunk (1.7.0)
     turbo-rails (1.4.0)
@@ -270,6 +271,7 @@ DEPENDENCIES
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
+  thread
   turbo-rails
   tzinfo-data
   uglifier
