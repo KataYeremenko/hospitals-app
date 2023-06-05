@@ -1,7 +1,81 @@
-require "test_helper"
+require 'test_helper'
 
 class PatientCardsControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  include Devise::Test::IntegrationHelpers
+
+  setup do
+    email = Faker::Internet.unique.email
+    while User.exists?(email: email)
+      email = Faker::Internet.unique.email
+    end
+    @user = User.create(email: email, password: 'password')
+    sign_in @user
+    while User.exists?(email: email)
+      email = Faker::Internet.unique.email
+    end
+    @hospital = Hospital.create(name: 'Hospital1', email: 'hospital1@gmail.com', phone: '+380123456789', address: '123 Adr1 st')
+    @patient = Patient.create(name: 'Patient P1', birthdate: Faker::Date.birthday(min_age: 16, max_age: 100), phone: '+380234567891', address: '234 Adr2 st')
+    @patientcard = PatientCard.create!(code: Faker::Base.regexify("^[A-Z]{2}[0-9]{4}$"), description: Faker::Lorem.paragraph, hospital_id: @hospital.id, patient_id: @patient.id)
+  end
+
+  test "should get index" do
+    get patient_cards_url
+    assert_response :success
+  end
+
+  test "should get show" do
+    get patient_cards_url(@patientcard)
+    assert_response :success
+  end
+
+  test "should get new" do
+    get new_patient_card_url
+    assert_response :success
+  end
+
+  test "should get edit" do
+    get edit_patient_card_url(@patientcard)
+    assert_response :success
+  end
+
+  test "should create patientcard" do
+    assert_difference('PatientCard.count', 1) do
+      post patient_cards_url, params: { patient_card: { code: @patientcard.code, description: @patientcard.description, hospital_id: @patientcard.hospital_id, patient_id: @patientcard.patient_id } }
+    end
+
+    assert_redirected_to patient_card_url(PatientCard.last)
+  end
+
+  test "should update patientcard" do
+    patch patient_card_url(@patientcard), params: {
+      patient_card: {
+        code: 'ZW1357',
+        description: Faker::Lorem.paragraph,
+        hospital_id: Hospital.last.id,
+        patient_id: Patient.last.id
+      }
+    }
+
+    assert_redirected_to patient_card_url(@patientcard)
+
+    @patientcard.reload
+
+    assert_equal @patientcard.code, 'ZW1357'
+  end
+
+  test "should destroy patientcard" do
+    assert_difference('PatientCard.count', -1) do
+      delete patient_card_url(@patientcard)
+    end
+
+    assert_redirected_to patient_cards_url
+  end
+
+  teardown do
+    @hospital.destroy
+    @patient.destroy
+    @patientcard.destroy
+    sign_out @user
+    @user.destroy
+  end
 end
