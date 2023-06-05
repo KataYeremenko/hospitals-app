@@ -10,8 +10,7 @@ h2 {
   text-align: center;
 }
 
-.label,
-.short-label {
+.label, .short-label {
   display: inline-block;
   text-align: right;
 }

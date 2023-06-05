@@ -16,6 +16,12 @@ class HospitalsController < ApplicationController
                .order!("COUNT(doctors.id) #{params[:direction] == 'desc' ? 'DESC' : 'ASC'}")
       when "name"
         hospitals.order!(name: params[:direction])
+      when "facility"
+        hospitals.order!(facility_: params[:direction])
+      when "city"
+        hospitals.order!(city: params[:direction])
+      when "rating"
+        hospitals.order!(rating: params[:direction])
       end
     end
 
@@ -41,6 +47,12 @@ class HospitalsController < ApplicationController
                .order!("COUNT(doctors.id) #{params[:direction] == 'desc' ? 'DESC' : 'ASC'}")
       when "name"
         hospitals.order!(name: params[:direction])
+      when "facility"
+        hospitals.order!(facility: params[:direction])
+      when "city"
+        hospitals.order!(city: params[:direction])
+      when "rating"
+        hospitals.order!(rating: params[:direction])
       end
     end
 
@@ -141,6 +153,6 @@ class HospitalsController < ApplicationController
   private
 
   def hospital_params
-    params.require(:hospital).permit(:name, :email, :phone, :address, :year)
+    params.require(:hospital).permit(:name, :email, :phone, :address, :year, :facility, :city, :rating)
   end
 end
