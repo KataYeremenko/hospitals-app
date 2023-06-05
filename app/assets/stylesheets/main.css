@@ -43,3 +43,13 @@ h1 {
   background-color: #1e7e34;
   transform: scale(0.95);
 }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-info img {
+  margin-right: 10px;
+}
