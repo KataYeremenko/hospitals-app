@@ -13,12 +13,26 @@ class HospitalsControllerTest < ActionDispatch::IntegrationTest
     while User.exists?(email: email)
       email = Faker::Internet.unique.email
     end
-    @hospital = Hospital.create(name: 'Hospital1', email: email, phone: '+380123456789', address: '123 Adr1 st')
+    @hospital = Hospital.create(name: 'Hospital1', email: email, phone: '+380123456789', address: '123 Adr1 Street', year: '1955')
+    9.times do |i|
+      while User.exists?(email: email)
+        email = Faker::Internet.unique.email
+      end
+      while Hospital.exists?(email: email)
+        email = Faker::Internet.unique.email
+      end
+      Hospital.create(name: "Hospital#{i + 2}", email: email, phone: "+380123456789", address: "123 Adr#{i + 1} Street", year: "1955")
+    end
   end
 
   test "should get index" do
     get hospitals_url
     assert_response :success
+    assert_select 'table tr', count: 11
+    assert_select 'a', '2'
+    get hospitals_url(page: 2)
+    assert_response :success
+    assert_select 'table tr', count: 3
   end
 
   test "should get show" do
@@ -33,7 +47,7 @@ class HospitalsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create hospital" do
     assert_difference('Hospital.count', 1) do
-      post hospitals_url, params: { hospital: { name: @hospital.name, email: @hospital.email, phone: @hospital.phone, address: @hospital.address } }
+      post hospitals_url, params: { hospital: { name: @hospital.name, email: @hospital.email, phone: @hospital.phone, address: @hospital.address, year: @hospital.year } }
     end
 
     assert_redirected_to hospital_url(Hospital.last)
@@ -50,7 +64,8 @@ class HospitalsControllerTest < ActionDispatch::IntegrationTest
         name: 'Hospital2',
         email: Faker::Internet.unique.email,
         phone: '+380234567891',
-        address: "#{Faker::Address.street_address} #{Faker::Address.street_name} St"
+        address: "#{Faker::Address.street_address} #{Faker::Address.street_name} Street",
+        year: '2023'
       }
     }
     assert_redirected_to hospital_url(@hospital)

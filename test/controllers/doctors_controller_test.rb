@@ -9,8 +9,11 @@ class DoctorsControllerTest < ActionDispatch::IntegrationTest
       email = Faker::Internet.unique.email
     end
     @user = User.create(email: email, password: 'password')
+    while User.exists?(email: email)
+        email = Faker::Internet.unique.email
+    end
     sign_in @user
-    @hospital = Hospital.create(name: 'Hospital1', email: 'hospital1@gmail.com', phone: '+380123456789', address: '123 Adr1 st')
+    @hospital = Hospital.create(name: 'Hospital1', email: 'hospital1@gmail.com', phone: '+380123456789', address: '123 Adr1 Street', year: '1955')
     @department = Department.create(name: 'Cardiac Surgery', description: 'description1', hospital_id: @hospital.id)
     @specialty = Specialty.create(name: 'Cardiology', description: 'description1')
     @doctor = Doctor.create!(
@@ -20,11 +23,25 @@ class DoctorsControllerTest < ActionDispatch::IntegrationTest
       specialty_id: @specialty.id,
       department_id: @department.id
     )
+    9.times do |i|
+      while User.exists?(email: email)
+        email = Faker::Internet.unique.email
+      end
+      while Doctor.exists?(email: email)
+        email = Faker::Internet.unique.email
+      end
+      Doctor.create(name: "Doctor D#{i + 2}", email: email, phone: "+380#{i + 3}0000000", specialty_id: @specialty.id, department_id: @department.id)
+    end
   end
 
   test "should get index" do
     get doctors_url
     assert_response :success
+    assert_select 'table tr', count: 11
+    assert_select 'a', '2'
+    get doctors_url(page: 2)
+    assert_response :success
+    assert_select 'table tr', count: 3
   end
 
   test "should get new" do

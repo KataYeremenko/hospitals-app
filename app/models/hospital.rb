@@ -8,6 +8,7 @@ class Hospital < ApplicationRecord
 	validates :email, presence: true, length: { maximum: 255 }, format: { with: URI::MailTo::EMAIL_REGEXP, message: "Invalid email format!" }
 	validates :phone, presence: true, length: { maximum: 20 }, format: { with: /\A\+?\d+\z/, message: "Invalid phone format!" }
 	validates :address, presence: true, length: { maximum: 100 }
+    validates :year, presence: true, length: { maximum: 10 }, format: { with: /\A(17[0-9]{2}|17[0-9]{2}|18[0-9]{2}|19[0-9]{2}|20[0-1][0-9]|202[0-3])\z/, message: "Incorrect year format!" }
 
 	def update_name(new_name)
 		self.name = new_name
@@ -26,6 +27,11 @@ class Hospital < ApplicationRecord
 
 	def update_address(new_address)
 		self.address = new_address
+		save
+	end
+
+	def update_year(new_year)
+		self.year = new_year
 		save
 	end
 end

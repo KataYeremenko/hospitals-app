@@ -1,6 +1,18 @@
 class PatientsController < ApplicationController
   def index
-    @patients = Patient.all
+    @patients = PatientQuery.new(Patient.page(params[:page]).per(10))
+    @patients = @patients.sort(params[:sort], params[:direction]) if params[:sort].present?
+    @patients = @patients.search(:name, params[:name]) if params[:name].present?
+    @patients = @patients.result
+  end
+  
+  def search
+    @patients = PatientQuery.new(Patient.page(params[:page]).per(10))
+    @patients = @patients.sort(params[:sort], params[:direction]) if params[:sort].present?
+    @patients = @patients.search(:name, params[:name]) if params[:name].present?
+    @patients = @patients.result
+
+    render :index
   end
 
   def show
@@ -14,9 +26,14 @@ class PatientsController < ApplicationController
   def create
     @patient = Patient.new(patient_params)
 
-    if @patient.save
-      redirect_to patient_path(@patient)
-    else
+    begin
+      if @patient.save
+        redirect_to patient_path(@patient)
+      else
+        render :new
+      end
+    rescue ActiveRecord::RecordNotUnique => e
+      flash[:error] = "An error occurred: #{e.message}"
       render :new
     end
   end
@@ -28,9 +45,14 @@ class PatientsController < ApplicationController
   def update
     @patient = Patient.find(params[:id])
 
-    if @patient.update(patient_params)
-      redirect_to patient_path(@patient)
-    else
+    begin
+      if @patient.update(patient_params)
+        redirect_to patient_path(@patient)
+      else
+        render :edit
+      end
+    rescue ActiveRecord::RecordNotUnique => e
+      flash[:error] = "An error occurred: #{e.message}"
       render :edit
     end
   end

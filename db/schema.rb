@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_22_182501) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_23_183004) do
   create_table "departments", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -39,6 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_182501) do
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "year"
   end
 
   create_table "patient_cards", force: :cascade do |t|
@@ -48,6 +49,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_182501) do
     t.integer "patient_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "doctor_id"
+    t.index ["doctor_id"], name: "index_patient_cards_on_doctor_id"
     t.index ["hospital_id"], name: "index_patient_cards_on_hospital_id"
     t.index ["patient_id"], name: "index_patient_cards_on_patient_id"
   end
@@ -83,6 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_182501) do
   add_foreign_key "departments", "hospitals"
   add_foreign_key "doctors", "departments"
   add_foreign_key "doctors", "specialties"
+  add_foreign_key "patient_cards", "doctors"
   add_foreign_key "patient_cards", "hospitals"
   add_foreign_key "patient_cards", "patients"
 end

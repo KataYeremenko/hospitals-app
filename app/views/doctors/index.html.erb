@@ -1,17 +1,39 @@
 <%= stylesheet_link_tag 'view' %>
 
-<h1> View Doctors </h1>
+<h1>View doctors</h1>
 
 <table>
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Department ID</th>
-      <th>Specialty ID</th>
-      <th colspan="3">Buttons</th>
+      <th style="width: 55px;">
+        <%= label_tag "id", "ID" %>
+        <%= link_to params[:sort] == "id" && params[:direction] == "asc" ? "▼" : "▲", { sort: "id", direction: params[:sort] == "id" && params[:direction] == "asc" ? "desc" : "asc", id: params[:id] }, class: "sort-icon #{params[:sort] == "id" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+      </th>
+      <th style="width: 220px;">
+        <%= form_tag(doctors_search_path, method: "get") do %>
+          <%= label_tag "name", "Name" %>
+          <%= text_field_tag "name", params[:name], placeholder: "Search...", size: 4 %>
+          <%= submit_tag "Search", class: "small-button" %>
+          <%= link_to params[:sort] == "name" && params[:direction] == "asc" ? "▼" : "▲", { sort: "name", direction: params[:sort] == "name" && params[:direction] == "asc" ? "desc" : "asc", name: params[:name] }, class: "sort-icon #{params[:sort] == "name" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+        <% end %>
+      </th>
+      <th style="width: 125px;">
+        <%= label_tag "email", "Email" %>
+        <%= link_to params[:sort] == "email" && params[:direction] == "asc" ? "▼" : "▲", { sort: "email", direction: params[:sort] == "email" && params[:direction] == "asc" ? "desc" : "asc", email: params[:email] }, class: "sort-icon #{params[:sort] == "email" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+      </th>
+      <th style="width: 135px">
+        <%= label_tag "phone", "Phone" %>
+        <%= link_to params[:sort] == "phone" && params[:direction] == "asc" ? "▼" : "▲", { sort: "phone", direction: params[:sort] == "phone" && params[:direction] == "asc" ? "desc" : "asc", phone: params[:phone] }, class: "sort-icon #{params[:sort] == "phone" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+      </th>
+      <th style="width: 150px;">
+        <%= label_tag "department_id", "Department ID" %>
+        <%= link_to params[:sort] == "department_id" && params[:direction] == "asc" ? "▼" : "▲", { sort: "department_id", direction: params[:sort] == "department_id" && params[:direction] == "asc" ? "desc" : "asc", department_id: params[:department_id] }, class: "sort-icon #{params[:sort] == "department_id" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+      </th>
+      <th style="width: 135px;">
+        <%= label_tag "specialty_id", "Specialty ID" %>
+        <%= link_to params[:sort] == "specialty_id" && params[:direction] == "asc" ? "▼" : "▲", { sort: "specialty_id", direction: params[:sort] == "specialty_id" && params[:direction] == "asc" ? "desc" : "asc", specialty_id: params[:specialty_id] }, class: "sort-icon #{params[:sort] == "specialty_id" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+      </th>
+      <th colspan="3" style="width: 270px;">Do something?</th>
     </tr>
   </thead>
   <tbody>
@@ -23,8 +45,8 @@
         <td><%= doctor.phone %></td>
         <td><%= doctor.department_id %></td>
         <td><%= doctor.specialty_id %></td>
-        <td><%= link_to 'View', doctor_path(doctor), class: "button" %></td>
-        <td><%= link_to 'Update', edit_doctor_path(doctor), class: "button" %></td>
+        <td><%= link_to 'Show', doctor_path(doctor), class: "button" %></td>
+        <td><%= link_to 'Edit', edit_doctor_path(doctor), class: "button" %></td>
         <td><%= button_to 'Delete', doctor_path(doctor), method: :delete, data: { confirm: 'Are you sure?' }, class: "button" %></td>
       </tr>
     <% end %>
@@ -32,7 +54,10 @@
 </table>
 
 <br>
+
+<%= paginate @doctors %>
+
 <div class="links-container">
-  <%= link_to 'Add Doctor', new_doctor_path, class: "bottom-button" %>
-  <%= link_to 'Back to Main page', '/', class: "bottom-button" %>
+  <%= link_to 'New Doctor', new_doctor_path, class: "bottom-button" %>
+  <%= link_to 'Main page', '/', class: "bottom-button" %>
 </div>
