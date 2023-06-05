@@ -14,6 +14,8 @@ gem "rails-controller-testing"
 
 gem "kaminari"
 
+gem "nokogiri"
+
 gem "uglifier"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
