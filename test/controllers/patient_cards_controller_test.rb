@@ -10,7 +10,7 @@ class PatientCardsControllerTest < ActionDispatch::IntegrationTest
     end
     @user = User.create(email: email, password: 'password')
     sign_in @user
-    @hospital = Hospital.create(name: 'Hospital1', email: 'hospital1@gmail.com', phone: '+380123456789', address: '123 Adr1 Street', year: '1955')
+    @hospital = Hospital.create(name: 'Hospital1', email: 'hospital1@gmail.com', phone: '+380123456789', address: '123 Adr1 Street', year: '1955', facility: "Hospital1 type", city: 'c. Avdeevka', rating: 'None')
     @patient = Patient.create(name: 'Patient P1', birthdate: Faker::Date.birthday(min_age: 16, max_age: 100), phone: '+380234567891', address: '234 Adr2 Street')
     @department = Department.create(name: 'Therapy', description: 'description1', hospital_id: @hospital.id)
     @specialty = Specialty.create(name: 'Therapist', description: 'description2')

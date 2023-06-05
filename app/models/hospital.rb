@@ -9,7 +9,9 @@ class Hospital < ApplicationRecord
 	validates :phone, presence: true, length: { maximum: 20 }, format: { with: /\A\+?\d+\z/, message: "Invalid phone format!" }
 	validates :address, presence: true, length: { maximum: 100 }
     validates :year, presence: true, length: { maximum: 10 }, format: { with: /\A(17[0-9]{2}|17[0-9]{2}|18[0-9]{2}|19[0-9]{2}|20[0-1][0-9]|202[0-3])\z/, message: "Incorrect year format!" }
-
+	validates :facility, presence: true, length: { maximum: 100 }
+	validates :city, presence: true, length: { maximum: 100 }
+	validates :rating, presence: true, length: { maximum: 100 }
 	def update_name(new_name)
 		self.name = new_name
 		save
@@ -32,6 +34,21 @@ class Hospital < ApplicationRecord
 
 	def update_year(new_year)
 		self.year = new_year
+		save
+	end
+
+	def update_facility(new_facility)
+		self.facility = new_facility
+		save
+	end
+
+	def update_city(new_city)
+		self.city = new_city
+		save
+	end
+
+	def update_rating(new_rating)
+		self.rating = new_rating
 		save
 	end
 end

@@ -13,7 +13,7 @@ class DoctorsControllerTest < ActionDispatch::IntegrationTest
         email = Faker::Internet.unique.email
     end
     sign_in @user
-    @hospital = Hospital.create(name: 'Hospital1', email: 'hospital1@gmail.com', phone: '+380123456789', address: '123 Adr1 Street', year: '1955')
+    @hospital = Hospital.create(name: 'Hospital1', email: 'hospital1@gmail.com', phone: '+380123456789', address: '123 Adr1 Street', year: '1955', facility: "Hospital1 type", city: 'c. Avdeevka', rating: 'None')
     @department = Department.create(name: 'Cardiac Surgery', description: 'description1', hospital_id: @hospital.id)
     @specialty = Specialty.create(name: 'Cardiology', description: 'description1')
     @doctor = Doctor.create!(

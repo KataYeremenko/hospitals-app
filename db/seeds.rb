@@ -18,7 +18,19 @@ Specialty.create!(specialties_to_create)
     email: Faker::Internet.unique.email,
     phone: Faker::PhoneNumber.cell_phone_in_e164.delete("+"),
     address: "#{Faker::Address.street_address} #{Faker::Address.street_name} Street",
-    year: Faker::Number.between(from: 1700, to: 2023)
+    year: Faker::Number.between(from: 1700, to: 2023),
+    city: Faker::Address.city,
+    facility: Faker::Lorem.word,
+    rating: case Faker::Number.between(from: 0, to: 3)
+        when 1
+          'Below'
+        when 2
+          'Same'
+        when 3
+          'Above'
+        when 0
+          'None'
+      end
   )
 
   # create departments

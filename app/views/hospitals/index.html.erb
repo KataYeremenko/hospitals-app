@@ -26,6 +26,18 @@
         <%= label_tag "doctors_count", "Number of doctors" %>
         <%= link_to params[:sort] == "doctors_count" && params[:direction] == "asc" ? "▼" : "▲", { sort: "doctors_count", direction: (params[:sort] == "doctors_count" && params[:direction] == "asc") ? "desc" : "asc", name: params[:name], departments_count: params[:departments_count], doctors_count: params[:doctors_count] }, class: "sort-icon #{params[:sort] == "doctors_count" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
       </th>
+      <th style="width: 120px;">
+        <%= label_tag "facility", "Hospital Type" %>
+        <%= link_to params[:sort] == "facility" && params[:direction] == "asc" ? "▼" : "▲", { sort: "facility", direction: (params[:sort] == "facility" && params[:direction] == "asc") ? "desc" : "asc", name: params[:name], departments_count: params[:departments_count], doctors_count: params[:doctors_count], facility: params[:facility], city: params[:city], rating: params[:rating] }, class: "sort-icon #{params[:sort] == "facility" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+      </th>
+      <th style="width: 105px;">
+        <%= label_tag "city", "City" %>
+        <%= link_to params[:sort] == "city" && params[:direction] == "asc" ? "▼" : "▲", { sort: "city", direction: (params[:sort] == "city" && params[:direction] == "asc") ? "desc" : "asc", name: params[:name], departments_count: params[:departments_count], doctors_count: params[:doctors_count], facility: params[:facility], city: params[:city], rating: params[:rating] }, class: "sort-icon #{params[:sort] == "city" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+      </th>
+      <th style="width: 120px;">
+        <%= label_tag "rating", "Mortality rating" %>
+        <%= link_to params[:sort] == "rating" && params[:direction] == "asc" ? "▼" : "▲", { sort: "rating", direction: (params[:sort] == "rating" && params[:direction] == "asc") ? "desc" : "asc", name: params[:name], departments_count: params[:departments_count], doctors_count: params[:doctors_count], facility: params[:facility], city: params[:city], rating: params[:rating] }, class: "sort-icon #{params[:sort] == "rating" ? (params[:direction] == "asc" ? "asc" : "desc") : ""}" %>
+      </th>
       <th colspan="3" style="width: 270px;">Do something?</th>
     </tr>
   </thead>
@@ -36,6 +48,9 @@
         <td><%= hospital.name %></td>
         <td><%= hospital.departments.count %></td>
         <td><%= hospital.doctors.count %></td>
+        <td><%= hospital.facility %></td>
+        <td><%= hospital.city %></td>
+        <td><%= hospital.rating %></td>
         <td><%= link_to 'Show', hospital_path(hospital), class: "button" %></td>
         <td><%= link_to 'Edit', edit_hospital_path(hospital), class: "button" %></td>
         <td><%= button_to 'Delete', hospital_path(hospital), method: :delete, data: { confirm: 'Are you sure?' }, class: "button" %></td>

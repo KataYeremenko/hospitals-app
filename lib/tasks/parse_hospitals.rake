@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 require 'faker'
+require 'csv'
 
 namespace :parse do
   desc 'Parse hospitals name and add random records with these names to the hospitals table'
@@ -125,5 +126,35 @@ namespace :parse do
     end
 
     puts "Hospitals parsed and records added to the hospitals table: #{hospital_list.length}"
+  end
+
+  desc "Import hospitals data from CSV"
+  task :csv_hospitals => :environment do
+    file_path = 'C:/hospitals-app/hospitals.csv'
+    hospitals_length = 0
+    CSV.foreach(file_path, headers: true) do |row|
+      facility_name = row['Facility.Name']
+      email = Faker::Internet.unique.email
+      phone = Faker::PhoneNumber.cell_phone_in_e164.delete("+")
+      address = "#{Faker::Address.street_address} #{Faker::Address.street_name} Street"
+      year = Faker::Number.between(from: 1700, to: 2023)
+      city = row['Facility.City']
+      facility = row['Facility.Type']
+      rating = row['Rating.Mortality']
+      hospitals_length = hospitals_length + 1
+
+      Hospital.create!(
+        name: facility_name,
+        email: email,
+        phone: phone,
+        address: address,
+        year: year,
+        facility: facility,
+        city: city,
+        rating: rating
+      )
+    end
+
+    puts "Hospitals parsed from cvs and records added to the hospitals table: #{hospitals_length}"
   end
 end

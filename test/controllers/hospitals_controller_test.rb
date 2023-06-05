@@ -13,7 +13,7 @@ class HospitalsControllerTest < ActionDispatch::IntegrationTest
     while User.exists?(email: email)
       email = Faker::Internet.unique.email
     end
-    @hospital = Hospital.create(name: 'Hospital1', email: email, phone: '+380123456789', address: '123 Adr1 Street', year: '1955')
+    @hospital = Hospital.create(name: 'Hospital1', email: email, phone: '+380123456789', address: '123 Adr1 Street', year: '1955', facility: "Hospital1 type", city: 'c. Avdeevka', rating: 'None')
     9.times do |i|
       while User.exists?(email: email)
         email = Faker::Internet.unique.email
@@ -21,7 +21,7 @@ class HospitalsControllerTest < ActionDispatch::IntegrationTest
       while Hospital.exists?(email: email)
         email = Faker::Internet.unique.email
       end
-      Hospital.create(name: "Hospital#{i + 2}", email: email, phone: "+380123456789", address: "123 Adr#{i + 1} Street", year: "1955")
+      Hospital.create(name: "Hospital#{i + 2}", email: email, phone: "+380123456789", address: "123 Adr#{i + 1} Street", year: "1955", facility: "Hospital#{i + 2} type", city: 'c. Avdeevka', rating: 'None')
     end
   end
 
@@ -47,7 +47,7 @@ class HospitalsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create hospital" do
     assert_difference('Hospital.count', 1) do
-      post hospitals_url, params: { hospital: { name: @hospital.name, email: @hospital.email, phone: @hospital.phone, address: @hospital.address, year: @hospital.year } }
+      post hospitals_url, params: { hospital: { name: @hospital.name, email: @hospital.email, phone: @hospital.phone, address: @hospital.address, year: @hospital.year, facility: @hospital.facility, city: @hospital.city, rating: @hospital.rating } }
     end
 
     assert_redirected_to hospital_url(Hospital.last)
@@ -65,7 +65,19 @@ class HospitalsControllerTest < ActionDispatch::IntegrationTest
         email: Faker::Internet.unique.email,
         phone: '+380234567891',
         address: "#{Faker::Address.street_address} #{Faker::Address.street_name} Street",
-        year: '2023'
+        year: '2023',
+        facility: 'Hospital0 type',
+        city: 't. Avdeevka',
+        rating: case Faker::Number.between(from: 0, to: 3)
+        when 1
+          'Below'
+        when 2
+          'Same'
+        when 3
+          'Above'
+        when 0
+          'None'
+      end
       }
     }
     assert_redirected_to hospital_url(@hospital)
